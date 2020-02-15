@@ -57,6 +57,8 @@ public class H2jdbc {
                         + "id INTEGER NOT NULL,"
                         + "file VARCHAR(50) NOT NULL,"
                         + "path VARCHAR(255) NOT NULL,"
+                        + "size LONG NOT NULL,"
+                        + "type VARCHAR(10) NOT NULL,"
                         + "PRIMARY KEY(id));";
                 stat = stmt.executeUpdate(sql);
                 if (DEBUG) {
@@ -82,11 +84,11 @@ public class H2jdbc {
 //        }
 //        return stat;
 //    }
-    public int insertRecords(int id, String file, String path) {
+    public int insertRecords(int id, String file, String path, long size, String type) {
         int stat = 0;
         try {
             try (Statement stmt = conn.createStatement()) {
-                String sql = "INSERT INTO SCEMANTIC VALUES(" + id + ", '" + file + "', '" + path + "');";
+                String sql = "INSERT INTO SCEMANTIC VALUES(" + id + ", '" + file + "', '" + path + "'," + size + ",'" + type.toLowerCase() + "');";
                 stat = stmt.executeUpdate(sql);
                 if (DEBUG) {
                     System.out.println("Record inserted");

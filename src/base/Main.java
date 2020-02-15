@@ -44,8 +44,12 @@ public class Main {
                 scanDirRecursive(file);
             } else {
                 try {
-                    h2.insertRecords(i, file.getName(), file.getCanonicalPath());
-                    i++;
+                    String filename = file.getName();
+                    String type = filename.substring(filename.lastIndexOf('.') + 1);
+                    if ("pdf".equals(type) || "ppt".equals(type) || "pptx".equals(type) || "doc".equals(type) || "docx".equals(type) || "txt".equals(type)) {
+                        h2.insertRecords(i, filename, file.getCanonicalPath(), file.length(), type);
+                        i++;
+                    }
                 } catch (IOException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
