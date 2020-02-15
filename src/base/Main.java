@@ -5,64 +5,51 @@
  */
 package base;
 
+import database.H2jdbc;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
 
-    static List<String> resultPDF = new ArrayList<>();
-    static List<String> resultPPT = new ArrayList<>();
-    static List<String> resultDOC = new ArrayList<>();
-    static List<String> resultTXT = new ArrayList<>();
+    H2jdbc h2;
+    int i = 1;
 
     public static void main(String[] args) {
-        File currentDir = new File("C:\\Users\\amit\\Downloads"); // current directory
-        scanDirRecursive(currentDir);
-
-        resultPDF.forEach((string) -> {
-            System.out.println(string);
-        });
-        System.out.println("");
-        resultPPT.forEach(System.out::println);
-        System.out.println("");
-        resultDOC.forEach(System.out::println);
-        System.out.println("");
-        resultTXT.forEach(System.out::println);
-
+        Main m = new Main();
+        m.init();
+        m.scanDir();
     }
 
-    public static void scanDirRecursive(File dir) {
-        try {
-            File[] files = dir.listFiles();
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    //System.out.println("directory:" + file.getCanonicalPath());
-                    scanDirRecursive(file);
-                } else {
-                    String file_name = file.getName();
+    public void init() {
+        h2 = new H2jdbc();
+        h2.createConnection();
+        h2.createTable();
+        h2.closeConnection();
+        i = 1;
+    }
 
-                    switch (file_name.substring(file_name.lastIndexOf('.') + 1)) {
-                        case "pdf":
-                            resultPDF.add(file.getCanonicalPath());
-                            break;
-                        case "ppt":
-                        case "pptx":
-                            resultPPT.add(file.getCanonicalPath());
-                            break;
-                        case "doc":
-                        case "docx":
-                            resultDOC.add(file.getCanonicalPath());
-                            break;
-                        case "txt":
-                            resultTXT.add(file.getCanonicalPath());
-                            break;
-                    }
+    public void scanDir() {
+        File currentDir = new File("C:\\Users\\amit\\Downloads");
+        h2.createConnection();
+        scanDirRecursive(currentDir);
+        h2.closeConnection();
+    }
+
+    private void scanDirRecursive(File dir) {
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                scanDirRecursive(file);
+            } else {
+                try {
+                    h2.insertRecords(i, file.getName(), file.getCanonicalPath());
+                    i++;
+                } catch (IOException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        } catch (IOException e) {
         }
     }
 }
