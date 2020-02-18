@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
+import opennlp.tools.tokenize.SimpleTokenizer;
 
 /**
  *
@@ -31,9 +32,17 @@ public class TestNLP {
             //Detecting the sentence
             String sentences[] = detector.sentDetect(SENTENCE);
 
+            //Instantiating SimpleTokenizer class 
+            SimpleTokenizer simpleTokenizer = SimpleTokenizer.INSTANCE;
+
             //Printing the sentences 
             for (String sent : sentences) {
                 System.out.println(sent);
+                String tokens[] = simpleTokenizer.tokenize(sent); 
+                for(String token : tokens){
+                    System.out.println(token);
+                }
+                System.err.println("---------------------");
             }
 
         } catch (IOException e) {
