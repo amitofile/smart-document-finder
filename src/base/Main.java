@@ -7,62 +7,29 @@ package base;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 
-    static List<String> resultPDF = new ArrayList<>();
-    static List<String> resultPPT = new ArrayList<>();
-    static List<String> resultDOC = new ArrayList<>();
-    static List<String> resultTXT = new ArrayList<>();
+    static final String DIRECTORY = "/home/tejora/Downloads";
+    //static final String directory = "C:\\Users\\amit\\Downloads";
 
     public static void main(String[] args) {
-        File currentDir = new File("C:\\Users\\amit\\Downloads"); // current directory
+        File currentDir = new File(DIRECTORY);
         scanDirRecursive(currentDir);
-
-        resultPDF.forEach((string) -> {
-            System.out.println(string);
-        });
-        System.out.println("");
-        resultPPT.forEach(System.out::println);
-        System.out.println("");
-        resultDOC.forEach(System.out::println);
-        System.out.println("");
-        resultTXT.forEach(System.out::println);
-
     }
 
     public static void scanDirRecursive(File dir) {
-        try {
-            File[] files = dir.listFiles();
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    //System.out.println("directory:" + file.getCanonicalPath());
-                    scanDirRecursive(file);
-                } else {
-                    String file_name = file.getName();
-
-                    switch (file_name.substring(file_name.lastIndexOf('.') + 1)) {
-                        case "pdf":
-                            resultPDF.add(file.getCanonicalPath());
-                            break;
-                        case "ppt":
-                        case "pptx":
-                            resultPPT.add(file.getCanonicalPath());
-                            break;
-                        case "doc":
-                        case "docx":
-                            resultDOC.add(file.getCanonicalPath());
-                            break;
-                        case "txt":
-                            resultTXT.add(file.getCanonicalPath());
-                            break;
-                    }
+        File[] files = dir.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                scanDirRecursive(file);
+            } else {
+                try {
+                    System.out.println(file.getCanonicalPath());
+                } catch (IOException ex) {
+                    System.err.println(ex.getMessage());
                 }
             }
-        } catch (IOException e) {
         }
     }
 }
