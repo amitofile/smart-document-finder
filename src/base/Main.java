@@ -6,7 +6,6 @@
 package base;
 
 import java.io.File;
-import java.io.IOException;
 
 public class Main {
 
@@ -25,8 +24,10 @@ public class Main {
                 scanDirRecursive(file);
             } else {
                 try {
-                    System.out.println(file.getCanonicalPath());
-                } catch (IOException ex) {
+                    String file_name = file.getName();
+                    String type = file_name.substring(file_name.lastIndexOf('.') + 1).toLowerCase();
+                    System.out.println(type);
+                } catch (Exception ex) {
                     System.err.println(ex.getMessage());
                 }
             }
