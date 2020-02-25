@@ -18,10 +18,9 @@ import java.util.HashMap;
 public class FileScanner {
 
     private ArrayList<String> fileTypes = new ArrayList<>(Arrays.asList("txt", "pdf", "doc", "docx"));
-    private int totalScannedFiles = 0;
-    private int relatedScannedFiles = 0;
+    private int totalFiles = 0;
+    private int relatedFiles = 0;
     private HashMap<String, Integer> fileCount = new HashMap<>();
-    private int totalFiles;
 
     public FileScanner(String dirPath) {
         fileTypes.forEach((String _item) -> {
@@ -38,30 +37,20 @@ public class FileScanner {
         scanDirRecursive(new File(dirPath));
     }
 
-    public int getTotalFiles() {
-        return totalFiles;
-    }
-
-    private void setTotalFiles(int totalFiles) {
-        this.totalFiles = totalFiles;
-    }
-    
-    
-
     private void scanDirRecursive(File dir) {
         File[] files = dir.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
                 scanDirRecursive(file);
             } else {
-                totalScannedFiles++;
+                totalFiles++;
                 try {
                     String file_name = file.getName();
                     String type = file_name.substring(file_name.lastIndexOf('.') + 1).toLowerCase();
                     if (fileTypes.contains(type)) {
-                        relatedScannedFiles++;
+                        relatedFiles++;
                         String path = file.getCanonicalPath();
-                        //System.out.println(path);
+                        System.out.println(path);
                         fileCount.put(type, fileCount.get(type) + 1);
                     }
                 } catch (IOException ex) {
@@ -70,13 +59,11 @@ public class FileScanner {
             }
         }
     }
-    
-    
 
     public ArrayList getInfo() {
         ArrayList temp = new ArrayList();
         temp.add(totalFiles);
-       // temp.add(relatedFiles);
+        temp.add(relatedFiles);
         temp.add(fileCount);
         return temp;
     }
