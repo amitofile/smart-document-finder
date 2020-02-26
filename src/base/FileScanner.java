@@ -5,6 +5,7 @@
  */
 package base;
 
+import gui.FinderUI;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +51,8 @@ public class FileScanner {
                     if (fileTypes.contains(type)) {
                         relatedFiles++;
                         String path = file.getCanonicalPath();
-                        System.out.println(path);
+                        //System.out.println(path);
+                        FinderUI.tableModel.addRow(new Object[]{path, type, file.length(), file.lastModified()});
                         fileCount.put(type, fileCount.get(type) + 1);
                     }
                 } catch (IOException ex) {

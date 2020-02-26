@@ -13,11 +13,11 @@ public class H2jdbc {
 
     // JDBC driver name and database URL 
     static final String JDBC_DRIVER = "org.h2.Driver";
-    static final String DB_URL = "jdbc:h2:~/test";
+    static final String DB_URL = "jdbc:h2:/home/tejora/app/mit/smart-document-finder/resources/data";
 
     //  Database credentials 
     static final String USER = "sa";
-    static final String PASS = "";
+    static final String PASS = "amit";
     
     static final boolean DEBUG = true;
     protected static Connection conn = null;
