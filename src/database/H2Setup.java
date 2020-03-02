@@ -9,22 +9,23 @@ import static database.H2jdbc.conn;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  *
  * @author amit
  */
-public class SetupGUI extends H2jdbc {
-    
-    public String[] loadFileTypes() {
-        String[] result = {};
+public class H2Setup extends H2jdbc {
+
+    public static ArrayList getAllowedFileTypes() {
+        ArrayList<String> result = new ArrayList<>();
         try {
             try (Statement stmt = conn.createStatement()) {
-                String sql = "SELECT VAL FROM \"PUBLIC\".CONFIG WHERE KEY = 'file_types';";
+                String sql = "SELECT EXTENSION FROM \"PUBLIC\".FILE_TYPES WHERE STATUS = 1";
                 stmt.execute(sql);
                 ResultSet r = stmt.getResultSet();
                 while (r.next()) {
-                    result = r.getString("VAL").split(",");
+                    result.add(r.getString("EXTENSION"));
                 }
             }
         } catch (SQLException e) {

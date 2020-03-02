@@ -5,8 +5,8 @@
  */
 package gui;
 
-import base.FileScanner;
-import database.SetupGUI;
+import reader.FileScanner;
+import database.H2Setup;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +26,9 @@ public class FinderUI extends javax.swing.JFrame {
      * Creates new form FinderUI
      */
     public FinderUI() {
-        SetupGUI sg = new SetupGUI();
+        H2Setup sg = new H2Setup();
         sg.createConnection();
-        fileTypes = sg.loadFileTypes();
+        //fileTypes = sg.getFileTypes();
         sg.closeConnection();
         initComponents();
         tableModel = (DefaultTableModel) jTable1.getModel();
@@ -188,7 +188,7 @@ public class FinderUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        FileScanner fs = new FileScanner(jTextField1.getText());
+        //FileScanner fs = new FileScanner(jTextField1.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

@@ -13,16 +13,17 @@ public class H2jdbc {
 
     // JDBC driver name and database URL 
     static final String JDBC_DRIVER = "org.h2.Driver";
-    static final String DB_URL = "jdbc:h2:/home/tejora/app/mit/smart-document-finder/resources/data";
+    //static final String DB_URL = "jdbc:h2:/home/tejora/app/mit/smart-document-finder/resources/data";
+    static final String DB_URL = "jdbc:h2:~/Documents/NetBeansProjects/smart-document-finder/resources/data";
 
     //  Database credentials 
     static final String USER = "sa";
     static final String PASS = "amit";
-    
+
     static final boolean DEBUG = true;
     protected static Connection conn = null;
 
-    public void createConnection() {
+    public static void createConnection() {
         try {
             Class.forName(JDBC_DRIVER);
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -34,13 +35,13 @@ public class H2jdbc {
         }
     }
 
-    public void closeConnection() {
+    public static void closeConnection() {
         try {
             if (conn != null) {
                 conn.close();
-            }
-            if (DEBUG) {
-                System.out.println("Connetion closed");
+                if (DEBUG) {
+                    System.out.println("Connetion closed");
+                }
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());

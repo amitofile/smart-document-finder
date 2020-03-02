@@ -5,12 +5,20 @@
  */
 package base;
 
+import database.H2Setup;
+
 public class Main {
 
     public static void main(String[] args) {
-
-        FileScanner fs = new FileScanner("C:\\Users\\amit\\Downloads");
-        System.out.println(fs.getInfo());
+        H2Setup s = new H2Setup();
+        s.createConnection();
+        System.err.println(s.getAllowedFileTypes());
+        
+        H2Setup ss = new H2Setup();
+        System.err.println(ss.getAllowedFileTypes());
+        ss.createConnection();
+        s.closeConnection();
+        ss.closeConnection();
     }
 
 }
