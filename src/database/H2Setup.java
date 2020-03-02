@@ -21,11 +21,30 @@ public class H2Setup extends H2jdbc {
         ArrayList<String> result = new ArrayList<>();
         try {
             try (Statement stmt = conn.createStatement()) {
-                String sql = "SELECT EXTENSION FROM \"PUBLIC\".FILE_TYPES WHERE STATUS = 1";
+                String sql = "SELECT EXTENSION FROM PUBLIC.FILE_TYPES WHERE STATUS = 1";
                 stmt.execute(sql);
                 ResultSet r = stmt.getResultSet();
                 while (r.next()) {
                     result.add(r.getString("EXTENSION"));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            return result;
+        }
+    }
+    
+    public static ArrayList getFileTypes() {
+        ArrayList<String> result = new ArrayList<>();
+        try {
+            result.add("All");
+            try (Statement stmt = conn.createStatement()) {
+                String sql = "SELECT DISTINCT GROUP_NAME FROM PUBLIC.FILE_TYPES WHERE STATUS = 1";
+                stmt.execute(sql);
+                ResultSet r = stmt.getResultSet();
+                while (r.next()) {
+                    result.add(r.getString("GROUP_NAME"));
                 }
             }
         } catch (SQLException e) {
