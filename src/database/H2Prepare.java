@@ -6,7 +6,9 @@
 package database;
 
 import static database.H2jdbc.DEBUG;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.sql.Statement;
 
 /**
@@ -57,7 +59,7 @@ public class H2Prepare extends H2jdbc {
                         + "VALUES ('" + name + "', '" + path + "', '" + type + "', " + size + "," + modified + ", '" + hash + "', " + tag + ")";
                 stat = stmt.executeUpdate(sql);
                 if (DEBUG) {
-                    //System.out.println("Record inserted");
+                    System.out.println("Record inserted");
                 }
             }
         } catch (SQLException e) {
@@ -80,5 +82,23 @@ public class H2Prepare extends H2jdbc {
             System.err.println(e.getMessage());
         }
         return stat;
+    }
+    
+    public static ArrayList getFileHashList() {
+        ArrayList<Long> result = new ArrayList<>();
+        try {
+            try (Statement stmt = conn.createStatement()) {
+                String sql = "SELECT HASH FROM PUBLIC.FILES";
+                stmt.execute(sql);
+                ResultSet r = stmt.getResultSet();
+                while (r.next()) {
+                    result.add(r.getLong("HASH"));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            return result;
+        }
     }
 }
