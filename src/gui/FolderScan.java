@@ -7,7 +7,6 @@ package gui;
 
 import database.H2Prepare;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,12 +16,14 @@ import java.util.HashMap;
  */
 public class FolderScan extends javax.swing.JPanel implements Runnable {
 
+    private final String dirPath;
     private final ArrayList<String> fileTypes;
     private final ArrayList<Long> fileHashList;
-    private final String dirPath;
     public int totalFiles = 0, relatedFiles = 0;
     public HashMap<String, Integer> relatedFilesCount = new HashMap<>();
     private int progressBarMin = 0, progressBarMax = 100, progressBarVal = 0;
+    private boolean keepGoing = true;
+    static final boolean DEBUG = true;
 
     /**
      * Creates new form StatusBar
@@ -33,13 +34,14 @@ public class FolderScan extends javax.swing.JPanel implements Runnable {
     public FolderScan(String dirPath, ArrayList<String> fileTypes) {
         this.dirPath = dirPath;
         this.fileTypes = fileTypes;
+        this.fileHashList = H2Prepare.getFileHashList();
         fileTypes.forEach((String _item) -> {
             relatedFilesCount.put(_item, 0);
         });
         initComponents();
         progressBarMin = jProgressBar1.getMinimum();
         progressBarMax = jProgressBar1.getMaximum();
-        fileHashList = H2Prepare.getFileHashList();
+        jProgressBar1.setString(dirPath);
     }
 
     /**
@@ -54,14 +56,18 @@ public class FolderScan extends javax.swing.JPanel implements Runnable {
         jProgressBar1 = new javax.swing.JProgressBar();
         jButton1 = new javax.swing.JButton();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder("C:\\Users\\amit\\Downloads"));
+        setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         setMaximumSize(null);
-        setMinimumSize(null);
 
         jProgressBar1.setString("");
         jProgressBar1.setStringPainted(true);
 
         jButton1.setText("Stop");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -80,6 +86,15 @@ public class FolderScan extends javax.swing.JPanel implements Runnable {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            Thread.sleep(1000);
+            keepGoing = false;
+        } catch (InterruptedException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -88,43 +103,48 @@ public class FolderScan extends javax.swing.JPanel implements Runnable {
 
     @Override
     public void run() {
+        if (DEBUG) {
+            System.out.println("Scanning started for " + dirPath);
+        }
         scanDirRecursive(new File(dirPath));
-        this.setVisible(false);
+        if (DEBUG) {
+            System.out.println("Scanning finished for " + dirPath + "[Total:" + totalFiles + ", Related:" + relatedFiles + ", " + relatedFilesCount + "]");
+        }
+        setVisible(false);
         getParent().remove(this);
     }
 
     private void scanDirRecursive(File dir) {
-        File[] files = dir.listFiles();
-        for (File file : files) {
-            if (file.isDirectory()) {
-                try {
-                    jProgressBar1.setString(file.getCanonicalPath());
-                } catch (IOException ex) {
-                    System.err.println(ex.getMessage());
-                }
-                scanDirRecursive(file);
-            } else {
-                totalFiles++;
-                try {
-                    String file_name = file.getName();
-                    String file_type = file_name.substring(file_name.lastIndexOf('.') + 1).toLowerCase();
-                    if (fileTypes.contains(file_type)) {
-                        file_name = file_name.substring(0, file_name.lastIndexOf('.'));
-                        String file_path = file.getCanonicalPath();
-                        long fileHash = file_path.hashCode();
-                        if (!fileHashList.contains(fileHash) && H2Prepare.insertRecords(file_name, file_path, file_type, file.length(), file.lastModified(), fileHash, 0) == 1) {
-                            relatedFiles++;
-                            relatedFilesCount.put(file_type, relatedFilesCount.get(file_type) + 1);
-                        }
-                        jProgressBar1.setValue(progressBarVal++);
-                        if (progressBarVal >= progressBarMax) {
-                            progressBarVal = progressBarMin;
+        try {
+            File[] files = dir.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (keepGoing) {
+                        if (file.isDirectory()) {
+                            scanDirRecursive(file);
+                        } else {
+                            totalFiles++;
+                            String file_name = file.getName();
+                            String file_type = file_name.substring(file_name.lastIndexOf('.') + 1).toLowerCase();
+                            if (fileTypes.contains(file_type)) {
+                                file_name = file_name.substring(0, file_name.lastIndexOf('.'));
+                                String file_path = file.getCanonicalPath();
+                                long fileHash = file_path.hashCode();
+                                if (!fileHashList.contains(fileHash) && H2Prepare.insertRecords(file_name, file_path, file_type, file.length(), file.lastModified(), fileHash, 0) == 1) {
+                                    relatedFiles++;
+                                    relatedFilesCount.put(file_type, relatedFilesCount.get(file_type) + 1);
+                                }
+                                jProgressBar1.setValue(progressBarVal++);
+                                if (progressBarVal >= progressBarMax) {
+                                    progressBarVal = progressBarMin;
+                                }
+                            }
                         }
                     }
-                } catch (IOException ex) {
-                    System.err.println(ex.getMessage());
                 }
             }
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
     }
 }

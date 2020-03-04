@@ -7,10 +7,11 @@ package gui;
 
 import database.H2Prepare;
 import database.H2Setup;
+import database.H2Task;
 import database.H2jdbc;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
+import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,12 +19,18 @@ import javax.swing.JPanel;
  */
 public class MainLayout01 extends javax.swing.JFrame {
 
+    ArrayList<String> allowedFileTypes = null;
+    private DefaultTableModel tableModel;
+    static final boolean DEBUG = true;
+
     /**
      * Creates new form Layout01
      */
     public MainLayout01() {
         H2jdbc.createConnection();
+        this.allowedFileTypes = H2Setup.getAllowedFileTypes();
         initComponents();
+        tableModel = (DefaultTableModel) jTable2.getModel();
     }
 
     /**
@@ -36,12 +43,18 @@ public class MainLayout01 extends javax.swing.JFrame {
     private void initComponents() {
 
         desktopPane = new javax.swing.JDesktopPane();
-        setExtendedState(MAXIMIZED_BOTH);
+        //setExtendedState(MAXIMIZED_BOTH);
+        jInternalFrame1 = new javax.swing.JInternalFrame();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -55,30 +68,106 @@ public class MainLayout01 extends javax.swing.JFrame {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
         });
 
         desktopPane.setAutoscrolls(true);
 
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jInternalFrame1.setIconifiable(true);
+        jInternalFrame1.setMaximizable(true);
+        jInternalFrame1.setResizable(true);
+        jInternalFrame1.setAutoscrolls(true);
+        jInternalFrame1.setVisible(true);
 
-        jPanel2.setAutoscrolls(true);
-        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
-        jScrollPane1.setViewportView(jPanel2);
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null}
+            },
+            new String [] {
+                "File Path", "Last Modified"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Long.class
+            };
 
-        desktopPane.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTable2);
+
+        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
+        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
+        jInternalFrame1Layout.setHorizontalGroup(
+            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jInternalFrame1Layout.setVerticalGroup(
+            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jInternalFrame1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTextField1.setText("jTextField1");
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        desktopPane.setLayer(jInternalFrame1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        desktopPane.setLayer(jTextField1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        desktopPane.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
         desktopPane.setLayout(desktopPaneLayout);
         desktopPaneLayout.setHorizontalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
+            .addGroup(desktopPaneLayout.createSequentialGroup()
+                .addGroup(desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(desktopPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(desktopPaneLayout.createSequentialGroup()
+                        .addGap(150, 150, 150)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         desktopPaneLayout.setVerticalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopPaneLayout.createSequentialGroup()
-                .addGap(0, 352, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
+                .addGroup(desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addComponent(jInternalFrame1)
+                .addContainerGap())
         );
+
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(32767, 55));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(6, 55));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(12, 55));
+
+        jPanel2.setAutoscrolls(true);
+        jPanel2.setMaximumSize(new java.awt.Dimension(32767, 55));
+        jPanel2.setMinimumSize(new java.awt.Dimension(10, 55));
+        jPanel2.setPreferredSize(new java.awt.Dimension(10, 55));
+        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
+        jScrollPane1.setViewportView(jPanel2);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
@@ -91,6 +180,14 @@ public class MainLayout01 extends javax.swing.JFrame {
             }
         });
         fileMenu.add(openMenuItem);
+
+        jMenuItem2.setText("Test");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem2);
 
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
@@ -127,10 +224,14 @@ public class MainLayout01 extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(desktopPane)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 961, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(desktopPane)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -142,10 +243,14 @@ public class MainLayout01 extends javax.swing.JFrame {
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-        FolderScan fs = new FolderScan("C:\\Users\\amit\\Downloads", H2Setup.getAllowedFileTypes());
-        jPanel2.add(fs)
-                .revalidate();
-        new Monitor(new Thread(fs), jPanel2).start();
+        ArrayList<String> userFolders = H2Prepare.getUserFolders();
+        JPanel[] scanners = new JPanel[userFolders.size()];
+        for (int i = 0; i < userFolders.size(); i++) {
+            scanners[i] = new FolderScan(userFolders.get(i), allowedFileTypes);
+            jPanel2.add(scanners[i])
+                    .revalidate();
+            new Thread((Runnable) scanners[i]).start();
+        }
     }//GEN-LAST:event_openMenuItemActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -159,6 +264,22 @@ public class MainLayout01 extends javax.swing.JFrame {
     private void deleteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuItemActionPerformed
         H2Prepare.truncateRecords();
     }//GEN-LAST:event_deleteMenuItemActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+                
+        ArrayList<String> rows = H2Task.getFileNameLike(jTextField1.getText());
+        rows.forEach((String path) -> {
+            tableModel.addRow(new String[]{path, ""});
+        });
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,30 +317,36 @@ public class MainLayout01 extends javax.swing.JFrame {
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     public javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     // End of variables declaration//GEN-END:variables
 
 }
 
-class Monitor extends Thread {
-
-    Thread worker;
-    JComponent parent;
-
-    public Monitor(Thread worker, JComponent parent) {
-        this.worker = worker;
-        this.parent = parent;
-    }
-
-    @Override
-    public void run() {
-        worker.start();
-        while (worker.isAlive()) {
-        }
-        parent.revalidate();
-    }
-}
+//class Monitor extends Thread {
+//
+//    Thread worker;
+//    JComponent parent;
+//
+//    public Monitor(Thread worker, JComponent parent) {
+//        this.worker = worker;
+//        this.parent = parent;
+//    }
+//
+//    @Override
+//    public void run() {
+//        worker.start();
+//        while (worker.isAlive()) {
+//        }
+//        parent.revalidate();
+//    }
+//}

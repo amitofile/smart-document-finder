@@ -55,11 +55,11 @@ public class H2Prepare extends H2jdbc {
         int stat = 0;
         try {
             try (Statement stmt = conn.createStatement()) {
-                String sql = "INSERT INTO \"DATA\".\"PUBLIC\".FILES (\"NAME\", \"PATH\", EXTENTION, \"SIZE\", MODIFIED, \"HASH\", TAGS) "
+                String sql = "INSERT INTO \"PUBLIC\".FILES (\"NAME\", \"PATH\", EXTENTION, \"SIZE\", MODIFIED, \"HASH\", TAGS) "
                         + "VALUES ('" + name + "', '" + path + "', '" + type + "', " + size + "," + modified + ", '" + hash + "', " + tag + ")";
                 stat = stmt.executeUpdate(sql);
                 if (DEBUG) {
-                    System.out.println("Record inserted");
+                    //System.out.println("Record inserted");
                 }
             }
         } catch (SQLException e) {
@@ -75,7 +75,7 @@ public class H2Prepare extends H2jdbc {
                 String sql = "TRUNCATE TABLE \"PUBLIC\".FILES";
                 stat = stmt.execute(sql);
                 if (DEBUG) {
-                    //System.out.println("Records removed");
+                    System.out.println("All records removed");
                 }
             }
         } catch (SQLException e) {
@@ -83,16 +83,40 @@ public class H2Prepare extends H2jdbc {
         }
         return stat;
     }
-    
+
     public static ArrayList getFileHashList() {
         ArrayList<Long> result = new ArrayList<>();
         try {
             try (Statement stmt = conn.createStatement()) {
-                String sql = "SELECT HASH FROM PUBLIC.FILES";
+                String sql = "SELECT HASH FROM \"PUBLIC\".FILES";
                 stmt.execute(sql);
                 ResultSet r = stmt.getResultSet();
                 while (r.next()) {
                     result.add(r.getLong("HASH"));
+                }
+                if (DEBUG) {
+                    System.out.println("File hash list fetched");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            return result;
+        }
+    }
+
+    public static ArrayList getUserFolders() {
+        ArrayList<String> result = new ArrayList<>();
+        try {
+            try (Statement stmt = conn.createStatement()) {
+                String sql = "SELECT PATH FROM \"PUBLIC\".USER_FOLDERS WHERE STATUS = 1";
+                stmt.execute(sql);
+                ResultSet r = stmt.getResultSet();
+                while (r.next()) {
+                    result.add(r.getString("PATH"));
+                }
+                if (DEBUG) {
+                    System.out.println("User folder list fetched");
                 }
             }
         } catch (SQLException e) {

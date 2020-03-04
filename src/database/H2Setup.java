@@ -27,6 +27,9 @@ public class H2Setup extends H2jdbc {
                 while (r.next()) {
                     result.add(r.getString("EXTENSION"));
                 }
+                if (DEBUG) {
+                    System.out.println("Allowed file extentions fetched");
+                }
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -45,6 +48,9 @@ public class H2Setup extends H2jdbc {
                 ResultSet r = stmt.getResultSet();
                 while (r.next()) {
                     result.add(r.getString("GROUP_NAME"));
+                }
+                if (DEBUG) {
+                    System.out.println("File types fetched");
                 }
             }
         } catch (SQLException e) {
