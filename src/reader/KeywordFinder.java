@@ -37,12 +37,13 @@ public class KeywordFinder {
         if (index > -1) {
             int start = index - offset < 0 ? 0 : index - offset;
             int end = index + offset > lenght ? lenght : index + offset;
+            keyword = str.substring(index, index + keyword.length());
             return str.substring(start, end).replaceAll(keyword, "<font color=\"red\">" + keyword + "</font>");
         }
         return null;
     }
-    
-    public void clean(){
+
+    public void clean() {
         str = null;
     }
 

@@ -42,7 +42,7 @@ public class PersonNameTrainer {
             }
             System.out.println("\tmodel generated");
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         }
     }
 }

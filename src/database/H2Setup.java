@@ -32,7 +32,7 @@ public class H2Setup extends H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         } finally {
             return result;
         }
@@ -54,7 +54,7 @@ public class H2Setup extends H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         } finally {
             return result;
         }

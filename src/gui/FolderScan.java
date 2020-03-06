@@ -91,7 +91,7 @@ public class FolderScan extends javax.swing.JPanel implements Runnable {
             Thread.sleep(1000);
             keepGoing = false;
         } catch (InterruptedException ex) {
-            System.err.println(ex.getMessage());
+            //System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -144,7 +144,7 @@ public class FolderScan extends javax.swing.JPanel implements Runnable {
                 }
             }
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         }
     }
 }

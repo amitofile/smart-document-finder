@@ -205,7 +205,7 @@ public class FinderUI extends javax.swing.JFrame {
             try {
                 jTextField1.setText(fc.getSelectedFile().getCanonicalPath());
             } catch (IOException ex) {
-                Logger.getLogger(FinderUI.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(FinderUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -231,7 +231,7 @@ public class FinderUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FinderUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            //java.util.logging.Logger.getLogger(FinderUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

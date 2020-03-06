@@ -59,11 +59,11 @@ public class TestNLP {
                     System.out.println(tokens[name.getStart()]);
                 }
 
-                System.err.println("---------------------");
+                //System.err.println("---------------------");
             }
 
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         }
     }
 

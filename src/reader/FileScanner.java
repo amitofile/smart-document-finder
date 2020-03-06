@@ -53,7 +53,7 @@ public class FileScanner extends Thread {
                 try {
                     label.setText(file.getCanonicalPath());
                 } catch (IOException ex) {
-                    System.err.println(ex.getMessage());
+                    //System.err.println(ex.getMessage());
                 }
                 scanDirRecursive(file);
             } else {
@@ -74,7 +74,7 @@ public class FileScanner extends Thread {
                         }
                     }
                 } catch (IOException ex) {
-                    System.err.println(ex.getMessage());
+                    //System.err.println(ex.getMessage());
                 }
             }
         }

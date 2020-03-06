@@ -20,7 +20,7 @@ public class Main {
         //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss:SSS");
         String s = parser.getContent();
 
-        //System.err.println(dtf.format(LocalDateTime.now()));
+        ////System.err.println(dtf.format(LocalDateTime.now()));
         String[] words = {"surcharge", "amit"};
         String result[] = new String[words.length];
 

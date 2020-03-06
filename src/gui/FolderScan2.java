@@ -30,6 +30,7 @@ public class FolderScan2 extends javax.swing.JPanel implements Runnable {
     /**
      * Creates new form StatusBar
      *
+     * @param words
      * @param dirPath
      * @param fileTypes
      */
@@ -93,7 +94,7 @@ public class FolderScan2 extends javax.swing.JPanel implements Runnable {
             Thread.sleep(1000);
             keepGoing = false;
         } catch (InterruptedException ex) {
-            System.err.println(ex.getMessage());
+            //System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -129,10 +130,12 @@ public class FolderScan2 extends javax.swing.JPanel implements Runnable {
                             String file_name = file.getName();
                             String file_type = file_name.substring(file_name.lastIndexOf('.') + 1).toLowerCase();
                             if (fileTypes.contains(file_type)) {
+                                file_name = file_name.substring(0, file_name.lastIndexOf('.'));
                                 String file_path = file.getCanonicalPath();
                                 relatedFiles++;
                                 relatedFilesCount.put(file_type, relatedFilesCount.get(file_type) + 1);
-                                new FileScannerThread(file_path, words).start();
+                                //new FileScannerThread(file_path, words).start();
+                                new FileScannerThread2(file_name, file_path, words).start();
                                 jProgressBar1.setValue(progressBarVal++);
                                 if (progressBarVal >= progressBarMax) {
                                     progressBarVal = progressBarMin;
@@ -143,7 +146,7 @@ public class FolderScan2 extends javax.swing.JPanel implements Runnable {
                 }
             }
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         }
     }
 }
@@ -176,6 +179,32 @@ class FileScannerThread extends Thread {
         }
         finder.clean();
         finder = null;
+    }
+
+}
+
+class FileScannerThread2 extends Thread {
+
+    private final String filePath;
+    private final String fileName;
+    private final String[] words;
+
+    public FileScannerThread2(String fileName, String filePath, String[] words) {
+        this.fileName = fileName;
+        this.filePath = filePath;
+        this.words = words;
+    }
+
+    @Override
+    public void run() {
+        for (String word : words) {
+            System.out.println(fileName+"|"+word);
+            if (fileName.contains(word)) {
+                FileNameSearchRow row = new FileNameSearchRow(filePath, fileName, word);
+                MainLayout01.jPanel6.add(row);
+                MainLayout01.jPanel6.revalidate();
+            }
+        }
     }
 
 }

@@ -12,8 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import opennlp.tools.doccat.DoccatFactory;
 import opennlp.tools.doccat.DoccatModel;
@@ -48,9 +46,9 @@ public class DocumentCategoryTrainer {
             params.put(TrainingParameters.ITERATIONS_PARAM, "10");
             params.put(TrainingParameters.CUTOFF_PARAM, "0");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -63,7 +61,7 @@ public class DocumentCategoryTrainer {
             model.serialize(modelOut);
             System.out.println("Training completed.");
         } catch (IOException ex) {
-            Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 if (modelOut != null) {
@@ -76,7 +74,7 @@ public class DocumentCategoryTrainer {
                     objStrm.close();
                 }
             } catch (IOException ex) {
-                Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -96,9 +94,9 @@ public class DocumentCategoryTrainer {
             System.out.println("---------------------------------");
             System.out.println("Test string is : " + category);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(DocumentCategoryTrainer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -108,7 +106,7 @@ public class DocumentCategoryTrainer {
             docTrain.startTraining("en", "office-document");
             docTrain.testModel("Passionate, value-driven product manager with experience leading cross-functional teams to plan, build, launch and manage world-class SaaS innovations. Blend technology skills with extensive Agile/Scrum experience, a marketing orientation and analytical abilities to evolve product strategy. Prioritize and manage multiple projects within specifications and budget restrictions.");
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         }
     }
 

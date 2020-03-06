@@ -34,7 +34,7 @@ public class H2Prepare extends H2jdbc {
 //                }
 //            }
 //        } catch (SQLException e) {
-//            System.err.println(e.getMessage());
+//            //System.err.println(e.getMessage());
 //        }
 //        return stat;
 //    }
@@ -47,7 +47,7 @@ public class H2Prepare extends H2jdbc {
 //                if (DEBUG)System.out.println("Table dropped");
 //            }
 //        } catch (SQLException e) {
-//            System.err.println(e.getMessage());
+//            //System.err.println(e.getMessage());
 //        }
 //        return stat;
 //    }
@@ -63,7 +63,7 @@ public class H2Prepare extends H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         }
         return stat;
     }
@@ -79,7 +79,7 @@ public class H2Prepare extends H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         }
         return stat;
     }
@@ -99,7 +99,7 @@ public class H2Prepare extends H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         } finally {
             return result;
         }
@@ -120,7 +120,7 @@ public class H2Prepare extends H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            //System.err.println(e.getMessage());
         } finally {
             return result;
         }

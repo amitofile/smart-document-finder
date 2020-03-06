@@ -9,11 +9,8 @@ import database.H2Prepare;
 import database.H2Setup;
 import database.H2Task;
 import database.H2jdbc;
-import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -56,7 +53,7 @@ public class MainLayout01 extends javax.swing.JFrame {
         //setExtendedState(MAXIMIZED_BOTH);
         fileNameMatchFrame = new javax.swing.JInternalFrame();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
         contentMatchFrame = new javax.swing.JInternalFrame();
         jScrollPane4 = new javax.swing.JScrollPane();
         jPanel5 = new javax.swing.JPanel();
@@ -88,6 +85,7 @@ public class MainLayout01 extends javax.swing.JFrame {
         deleteMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Smart Document Finder");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -106,37 +104,22 @@ public class MainLayout01 extends javax.swing.JFrame {
         fileNameMatchFrame.setMaximizable(true);
         fileNameMatchFrame.setResizable(true);
         fileNameMatchFrame.setTitle("File Name Match");
-        fileNameMatchFrame.setAutoscrolls(true);
         fileNameMatchFrame.setMaximumSize(desktopPane.getSize());
         fileNameMatchFrame.setVisible(true);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "File Path"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane3.setViewportView(jTable2);
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.PAGE_AXIS));
+        jScrollPane3.setViewportView(jPanel6);
 
         javax.swing.GroupLayout fileNameMatchFrameLayout = new javax.swing.GroupLayout(fileNameMatchFrame.getContentPane());
         fileNameMatchFrame.getContentPane().setLayout(fileNameMatchFrameLayout);
         fileNameMatchFrameLayout.setHorizontalGroup(
             fileNameMatchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
         );
         fileNameMatchFrameLayout.setVerticalGroup(
             fileNameMatchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+            .addComponent(jScrollPane3)
         );
 
         contentMatchFrame.setIconifiable(true);
@@ -146,6 +129,12 @@ public class MainLayout01 extends javax.swing.JFrame {
         contentMatchFrame.setAutoscrolls(true);
         contentMatchFrame.setVisible(true);
 
+        jScrollPane4.setAutoscrolls(true);
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setAutoscrolls(true);
+        jPanel5.setMaximumSize(new java.awt.Dimension(3250, 3250));
+        jPanel5.setMinimumSize(new java.awt.Dimension(25, 25));
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.PAGE_AXIS));
         jScrollPane4.setViewportView(jPanel5);
 
@@ -153,13 +142,14 @@ public class MainLayout01 extends javax.swing.JFrame {
         contentMatchFrame.getContentPane().setLayout(contentMatchFrameLayout);
         contentMatchFrameLayout.setHorizontalGroup(
             contentMatchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
         );
         contentMatchFrameLayout.setVerticalGroup(
             contentMatchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
         );
 
+        tagMatchFrame.setBackground(new java.awt.Color(255, 255, 255));
         tagMatchFrame.setIconifiable(true);
         tagMatchFrame.setMaximizable(true);
         tagMatchFrame.setResizable(true);
@@ -171,11 +161,11 @@ public class MainLayout01 extends javax.swing.JFrame {
         tagMatchFrame.getContentPane().setLayout(tagMatchFrameLayout);
         tagMatchFrameLayout.setHorizontalGroup(
             tagMatchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 321, Short.MAX_VALUE)
+            .addGap(0, 431, Short.MAX_VALUE)
         );
         tagMatchFrameLayout.setVerticalGroup(
             tagMatchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 496, Short.MAX_VALUE)
+            .addGap(0, 307, Short.MAX_VALUE)
         );
 
         folderListFrame.setClosable(true);
@@ -200,11 +190,11 @@ public class MainLayout01 extends javax.swing.JFrame {
         folderListFrame.getContentPane().setLayout(folderListFrameLayout);
         folderListFrameLayout.setHorizontalGroup(
             folderListFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         folderListFrameLayout.setVerticalGroup(
             folderListFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 515, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
         );
 
         desktopPane.setLayer(fileNameMatchFrame, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -217,34 +207,29 @@ public class MainLayout01 extends javax.swing.JFrame {
         desktopPaneLayout.setHorizontalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopPaneLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
+                .addContainerGap()
                 .addComponent(fileNameMatchFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(contentMatchFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(tagMatchFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(folderListFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tagMatchFrame)
+                    .addComponent(folderListFrame))
+                .addGap(0, 18, Short.MAX_VALUE))
         );
         desktopPaneLayout.setVerticalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(desktopPaneLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addGroup(desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(desktopPaneLayout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(contentMatchFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(desktopPaneLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(fileNameMatchFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(desktopPaneLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(folderListFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, desktopPaneLayout.createSequentialGroup()
-                            .addGap(14, 14, 14)
-                            .addComponent(tagMatchFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(tagMatchFrame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(folderListFrame))
+                    .addGroup(desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(contentMatchFrame, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(fileNameMatchFrame, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -500,6 +485,10 @@ public class MainLayout01 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        jPanel5.removeAll();
+        jPanel5.revalidate();
+        jPanel6.removeAll();
+        jPanel6.revalidate();
         ArrayList<String> userFolders = H2Prepare.getUserFolders();
         JPanel[] scanners = new JPanel[userFolders.size()];
         String[] words = jTextField1.getText().split(" ");
@@ -520,7 +509,7 @@ public class MainLayout01 extends javax.swing.JFrame {
             try {
                 lbl_searchFolder.setText(fc.getSelectedFile().getCanonicalPath());
             } catch (IOException ex) {
-                Logger.getLogger(FinderUI.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(FinderUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -546,7 +535,7 @@ public class MainLayout01 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainLayout01.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            //java.util.logging.Logger.getLogger(MainLayout01.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -590,12 +579,12 @@ public class MainLayout01 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     public static javax.swing.JPanel jPanel5;
+    public static javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lbl_searchFolder;
     private javax.swing.JMenuBar menuBar;
