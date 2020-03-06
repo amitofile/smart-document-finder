@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,8 +20,8 @@ import org.xml.sax.SAXException;
 public class FileParser {
 
     private BodyContentHandler handler;
-    private Metadata metadata;
-    private ParseContext context;
+    private final Metadata metadata;
+    private final ParseContext context;
 
     public FileParser() {
         handler = new BodyContentHandler();
@@ -50,16 +51,23 @@ public class FileParser {
         }
     }
 
-    public String getHandler() {
-        return handler.toString();
+    public String getContent() {
+        String temp = handler.toString();
+        //temp = temp.replaceAll("[\\n\\t]", " ");
+        temp = temp.replaceAll("[^a-zA-Z0-9 ]", " ");
+        return temp;
     }
 
-    public String[] getMetadata() {
-        return metadata.names();
+    public HashMap<String, String> getMetadata() {
+        HashMap<String, String> temp = new HashMap<>();
+        String[] metadataNames = metadata.names();
+        for (String name : metadataNames) {
+            temp.put(name, metadata.get(name));
+        }
+        return temp;
     }
 
-    public String getContext() {
-        return context.toString();
+    public void clean() {
+        handler = null;
     }
-
 }

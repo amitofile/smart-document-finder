@@ -61,6 +61,11 @@ public class FinderUI extends javax.swing.JFrame {
         cb_fileType.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         cb_fileType.setModel(new javax.swing.DefaultComboBoxModel<>(fileTypes));
         cb_fileType.setRequestFocusEnabled(false);
+        cb_fileType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_fileTypeActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("File Type");
@@ -204,6 +209,10 @@ public class FinderUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void cb_fileTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_fileTypeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_fileTypeActionPerformed
 
     /**
      * @param args the command line arguments
