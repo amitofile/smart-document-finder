@@ -47,11 +47,11 @@ public class TestNLP {
 
             //Printing the sentences 
             for (String sentence : sentences) {
-                //System.out.println(sentence);
+                System.out.println(sentence);
 
                 String tokens[] = simpleTokenizer.tokenize(sentence);
                 for (String token : tokens) {
-                    //System.out.println(token);
+                    System.out.println(token);
                 }
 
                 Span names[] = nameFinder.find(tokens);
@@ -59,11 +59,11 @@ public class TestNLP {
                     System.out.println(tokens[name.getStart()]);
                 }
 
-                //System.err.println("---------------------");
+                System.err.println("---------------------");
             }
 
         } catch (IOException e) {
-            //System.err.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 

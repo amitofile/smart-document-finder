@@ -13,8 +13,8 @@ public class H2jdbc {
 
     // JDBC driver name and database URL 
     static final String JDBC_DRIVER = "org.h2.Driver";
-    static final String DB_URL = "jdbc:h2:/home/tejora/app/mit/smart-document-finder/resources/data";
-    //static final String DB_URL = "jdbc:h2:~/Documents/NetBeansProjects/smart-document-finder/resources/data";
+    //static final String DB_URL = "jdbc:h2:/home/tejora/app/mit/smart-document-finder/resources/data";
+    static final String DB_URL = "jdbc:h2:~/Documents/NetBeansProjects/smart-document-finder/resources/data";
 
     //  Database credentials 
     static final String USER = "sa";
@@ -31,7 +31,7 @@ public class H2jdbc {
                 System.out.println("Database Connected");
             }
         } catch (ClassNotFoundException | SQLException e) {
-            //System.err.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 
@@ -44,7 +44,7 @@ public class H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            //System.err.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 }

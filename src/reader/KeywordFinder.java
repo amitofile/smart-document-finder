@@ -11,8 +11,8 @@ package reader;
  */
 public class KeywordFinder {
 
-    private String str;
-    private final int offset = 100;
+    private final String str;
+    private final int offset = 200;
     private final int lenght;
 
     public KeywordFinder(String str) {
@@ -42,9 +42,4 @@ public class KeywordFinder {
         }
         return null;
     }
-
-    public void clean() {
-        str = null;
-    }
-
 }

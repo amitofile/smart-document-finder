@@ -50,7 +50,7 @@ public class MainLayout01 extends javax.swing.JFrame {
     private void initComponents() {
 
         desktopPane = new javax.swing.JDesktopPane();
-        //setExtendedState(MAXIMIZED_BOTH);
+        setExtendedState(MAXIMIZED_BOTH);
         fileNameMatchFrame = new javax.swing.JInternalFrame();
         jScrollPane3 = new javax.swing.JScrollPane();
         jPanel6 = new javax.swing.JPanel();
@@ -146,7 +146,7 @@ public class MainLayout01 extends javax.swing.JFrame {
         );
         contentMatchFrameLayout.setVerticalGroup(
             contentMatchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
         );
 
         tagMatchFrame.setBackground(new java.awt.Color(255, 255, 255));
@@ -165,7 +165,7 @@ public class MainLayout01 extends javax.swing.JFrame {
         );
         tagMatchFrameLayout.setVerticalGroup(
             tagMatchFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 307, Short.MAX_VALUE)
+            .addGap(0, 311, Short.MAX_VALUE)
         );
 
         folderListFrame.setClosable(true);
@@ -478,10 +478,7 @@ public class MainLayout01 extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ArrayList<String> rows = H2Task.getFileNameLike(jTextField1.getText());
-        rows.forEach((String path) -> {
-            //tableModel.addRow(new String[]{path, ""});
-        });
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

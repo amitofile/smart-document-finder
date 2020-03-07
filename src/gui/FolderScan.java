@@ -7,6 +7,7 @@ package gui;
 
 import database.H2Prepare;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -91,7 +92,7 @@ public class FolderScan extends javax.swing.JPanel implements Runnable {
             Thread.sleep(1000);
             keepGoing = false;
         } catch (InterruptedException ex) {
-            //System.err.println(ex.getMessage());
+            System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -130,10 +131,10 @@ public class FolderScan extends javax.swing.JPanel implements Runnable {
                                 file_name = file_name.substring(0, file_name.lastIndexOf('.'));
                                 String file_path = file.getCanonicalPath();
                                 long fileHash = file_path.hashCode();
-                                if (!fileHashList.contains(fileHash) && H2Prepare.insertRecords(file_name, file_path, file_type, file.length(), file.lastModified(), fileHash, 0) == 1) {
+                                //if (!fileHashList.contains(fileHash) && H2Prepare.insertRecords(file_name, file_path, file_type, file.length(), file.lastModified(), fileHash, 0) == 1) {
                                     relatedFiles++;
                                     relatedFilesCount.put(file_type, relatedFilesCount.get(file_type) + 1);
-                                }
+                                //}
                                 jProgressBar1.setValue(progressBarVal++);
                                 if (progressBarVal >= progressBarMax) {
                                     progressBarVal = progressBarMin;
@@ -143,8 +144,8 @@ public class FolderScan extends javax.swing.JPanel implements Runnable {
                     }
                 }
             }
-        } catch (Exception e) {
-            //System.err.println(e.getMessage());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
     }
 }

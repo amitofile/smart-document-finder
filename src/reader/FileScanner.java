@@ -53,7 +53,7 @@ public class FileScanner extends Thread {
                 try {
                     label.setText(file.getCanonicalPath());
                 } catch (IOException ex) {
-                    //System.err.println(ex.getMessage());
+                    System.err.println(ex.getMessage());
                 }
                 scanDirRecursive(file);
             } else {
@@ -64,17 +64,17 @@ public class FileScanner extends Thread {
                     if (fileTypes.contains(file_type)) {
                         file_name = file_name.substring(0, file_name.lastIndexOf('.'));
                         String file_path = file.getCanonicalPath();
-                        if (2 < 10 && 1 == H2Prepare.insertRecords(file_name, file_path, file_type, file.length(), file.lastModified(), file_path.hashCode(), 0)) {
+                        //if (2 < 10 && 1 == H2Prepare.insertRecords(file_name, file_path, file_type, file.length(), file.lastModified(), file_path.hashCode(), 0)) {
                             relatedFiles++;
                             relatedFilesCount.put(file_type, relatedFilesCount.get(file_type) + 1);
-                        }
+                       // }
                         progressBar.setValue(progressBarVal++);
                         if (progressBarVal >= progressBarMax) {
                             progressBarVal = progressBarMin;
                         }
                     }
                 } catch (IOException ex) {
-                    //System.err.println(ex.getMessage());
+                    System.err.println(ex.getMessage());
                 }
             }
         }

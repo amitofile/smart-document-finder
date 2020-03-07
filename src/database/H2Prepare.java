@@ -34,7 +34,7 @@ public class H2Prepare extends H2jdbc {
 //                }
 //            }
 //        } catch (SQLException e) {
-//            //System.err.println(e.getMessage());
+//            System.err.println(e.getMessage());
 //        }
 //        return stat;
 //    }
@@ -47,23 +47,40 @@ public class H2Prepare extends H2jdbc {
 //                if (DEBUG)System.out.println("Table dropped");
 //            }
 //        } catch (SQLException e) {
-//            //System.err.println(e.getMessage());
+//            System.err.println(e.getMessage());
 //        }
 //        return stat;
 //    }
-    public static int insertRecords(String name, String path, String type, long size, long modified, long hash, int tag) {
+    public static int insertRecords(String name, String path, String type, long size, long modified, long hash, int tag, long search_hash) {
         int stat = 0;
         try {
             try (Statement stmt = conn.createStatement()) {
-                String sql = "INSERT INTO \"PUBLIC\".FILES (\"NAME\", \"PATH\", EXTENTION, \"SIZE\", MODIFIED, \"HASH\", TAGS) "
-                        + "VALUES ('" + name + "', '" + path + "', '" + type + "', " + size + "," + modified + ", '" + hash + "', " + tag + ")";
+                String sql = "INSERT INTO PUBLIC.FILES (NAME, PATH, EXTENTION, SIZE, MODIFIED, HASH, TAGS, SEARCH_HASH) "
+                        + "VALUES ('" + name + "', '" + path + "', '" + type + "', " + size + ", " + modified + ", " + hash + ", " + tag + ", " + search_hash + ")";
                 stat = stmt.executeUpdate(sql);
                 if (DEBUG) {
                     //System.out.println("Record inserted");
                 }
             }
         } catch (SQLException e) {
-            //System.err.println(e.getMessage());
+            System.err.println(e.getMessage());
+        }
+        return stat;
+    }
+
+    public static int insertUserFolder(String dirPath, int status) {
+        int stat = 0;
+        try {
+            try (Statement stmt = conn.createStatement()) {
+                String sql = "INSERT INTO PUBLIC.USER_FOLDERS (PATH, STATUS) "
+                        + "VALUES ('" + dirPath + "', " + status + " )";
+                stat = stmt.executeUpdate(sql);
+                if (DEBUG) {
+                    System.out.println("New folder inserted");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
         }
         return stat;
     }
@@ -79,7 +96,23 @@ public class H2Prepare extends H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            //System.err.println(e.getMessage());
+            System.err.println(e.getMessage());
+        }
+        return stat;
+    }
+    
+    public static boolean truncateUserFolders() {
+        boolean stat = false;
+        try {
+            try (Statement stmt = conn.createStatement()) {
+                String sql = "TRUNCATE TABLE PUBLIC.USER_FOLDERS";
+                stat = stmt.execute(sql);
+                if (DEBUG) {
+                    System.out.println("All user folders removed");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
         }
         return stat;
     }
@@ -99,7 +132,7 @@ public class H2Prepare extends H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            //System.err.println(e.getMessage());
+            System.err.println(e.getMessage());
         } finally {
             return result;
         }
@@ -120,7 +153,7 @@ public class H2Prepare extends H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            //System.err.println(e.getMessage());
+            System.err.println(e.getMessage());
         } finally {
             return result;
         }

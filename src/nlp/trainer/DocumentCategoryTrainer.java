@@ -106,7 +106,7 @@ public class DocumentCategoryTrainer {
             docTrain.startTraining("en", "office-document");
             docTrain.testModel("Passionate, value-driven product manager with experience leading cross-functional teams to plan, build, launch and manage world-class SaaS innovations. Blend technology skills with extensive Agile/Scrum experience, a marketing orientation and analytical abilities to evolve product strategy. Prioritize and manage multiple projects within specifications and budget restrictions.");
         } catch (Exception e) {
-            //System.err.println(e.getMessage());
+            System.err.println(e.getMessage());
         }
     }
 

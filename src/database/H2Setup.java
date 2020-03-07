@@ -32,12 +32,33 @@ public class H2Setup extends H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            //System.err.println(e.getMessage());
+            System.err.println(e.getMessage());
         } finally {
             return result;
         }
     }
-    
+
+    public static ArrayList getAllowedFileTypes(String group) {
+        ArrayList<String> result = new ArrayList<>();
+        try {
+            try (Statement stmt = conn.createStatement()) {
+                String sql = "SELECT EXTENSION FROM PUBLIC.FILE_TYPES WHERE GROUP_NAME = '" + group + "' AND STATUS = 1";
+                stmt.execute(sql);
+                ResultSet r = stmt.getResultSet();
+                while (r.next()) {
+                    result.add(r.getString("EXTENSION"));
+                }
+                if (DEBUG) {
+                    System.out.println("Allowed file extentions fetched for "+ group);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            return result;
+        }
+    }
+
     public static ArrayList getFileTypes() {
         ArrayList<String> result = new ArrayList<>();
         try {
@@ -54,7 +75,7 @@ public class H2Setup extends H2jdbc {
                 }
             }
         } catch (SQLException e) {
-            //System.err.println(e.getMessage());
+            System.err.println(e.getMessage());
         } finally {
             return result;
         }

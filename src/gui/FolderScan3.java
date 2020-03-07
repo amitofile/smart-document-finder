@@ -5,39 +5,40 @@
  */
 package gui;
 
+import database.H2Prepare;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import reader.FileParser;
-import reader.KeywordFinder;
 
 /**
  *
  * @author amit
  */
-public class FolderScan2 extends javax.swing.JPanel implements Runnable {
+public class FolderScan3 extends javax.swing.JPanel implements Runnable {
 
     private final String dirPath;
     private final ArrayList<String> fileTypes;
-    public int totalFiles = 0, relatedFiles = 0;
-    public HashMap<String, Integer> relatedFilesCount = new HashMap<>();
+    private final String words;
+    private final ArrayList<Long> fileHashList;
+    private int totalFiles = 0, relatedFiles = 0;
+    private HashMap<String, Integer> relatedFilesCount = new HashMap<>();
     private int progressBarMin = 0, progressBarMax = 100, progressBarVal = 0;
-    private boolean keepGoing = true;
-    static final boolean DEBUG = true;
-    private final String[] words;
+    private boolean threadOK = true;
+    private final boolean DEBUG = true;
 
     /**
      * Creates new form StatusBar
      *
-     * @param words
      * @param dirPath
      * @param fileTypes
+     * @param words
      */
-    public FolderScan2(String[] words, String dirPath, ArrayList<String> fileTypes) {
+    public FolderScan3(String dirPath, ArrayList<String> fileTypes, String words) {
         this.dirPath = dirPath;
         this.fileTypes = fileTypes;
         this.words = words;
+        this.fileHashList = H2Prepare.getFileHashList();
         fileTypes.forEach((String _item) -> {
             relatedFilesCount.put(_item, 0);
         });
@@ -91,8 +92,8 @@ public class FolderScan2 extends javax.swing.JPanel implements Runnable {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            Thread.sleep(1000);
-            keepGoing = false;
+            Thread.sleep(100);
+            threadOK = false;
         } catch (InterruptedException ex) {
             System.err.println(ex.getMessage());
         }
@@ -115,27 +116,40 @@ public class FolderScan2 extends javax.swing.JPanel implements Runnable {
         }
         setVisible(false);
         getParent().remove(this);
+        if (!words.isEmpty()) {
+            new FileNameSearch(dirPath.hashCode(), fileTypes, words).start();
+            if (MainLayout02.contentSearchChk.isSelected()) {
+                new ContentSearch(dirPath.hashCode(), fileTypes, words).start();
+            }
+        }
     }
+
+    String file_name;
+    String file_type;
+    String file_path;
+    long fileHash;
+    File[] files;
 
     private void scanDirRecursive(File dir) {
         try {
-            File[] files = dir.listFiles();
+            files = dir.listFiles();
             if (files != null) {
                 for (File file : files) {
-                    if (keepGoing) {
+                    if (threadOK) {
                         if (file.isDirectory()) {
                             scanDirRecursive(file);
                         } else {
                             totalFiles++;
-                            String file_name = file.getName();
-                            String file_type = file_name.substring(file_name.lastIndexOf('.') + 1).toLowerCase();
+                            file_name = file.getName().toLowerCase();
+                            file_type = file_name.substring(file_name.lastIndexOf('.') + 1);
                             if (fileTypes.contains(file_type)) {
                                 file_name = file_name.substring(0, file_name.lastIndexOf('.'));
-                                String file_path = file.getCanonicalPath();
-                                relatedFiles++;
-                                relatedFilesCount.put(file_type, relatedFilesCount.get(file_type) + 1);
-                                //new FileScannerThread(file_path, words).start();
-                                new FileScannerThread2(file_name, file_path, words).start();
+                                file_path = file.getCanonicalPath();
+                                fileHash = file_path.hashCode();
+                                if (!fileHashList.contains(fileHash) && H2Prepare.insertRecords(file_name, file_path, file_type, file.length(), file.lastModified(), fileHash, 0, dirPath.hashCode()) == 1) {
+                                    relatedFiles++;
+                                    relatedFilesCount.put(file_type, relatedFilesCount.get(file_type) + 1);
+                                }
                                 jProgressBar1.setValue(progressBarVal++);
                                 if (progressBarVal >= progressBarMax) {
                                     progressBarVal = progressBarMin;
@@ -149,60 +163,4 @@ public class FolderScan2 extends javax.swing.JPanel implements Runnable {
             System.err.println(e.getMessage());
         }
     }
-}
-
-class FileScannerThread extends Thread {
-
-    private final String filePath;
-    private final String[] words;
-    private KeywordFinder finder;
-
-    public FileScannerThread(String filePath, String[] words) {
-        this.filePath = filePath;
-        this.words = words;
-        FileParser parser = new FileParser(filePath);
-        this.finder = new KeywordFinder(parser.getContent());
-        parser.clean();
-        parser = null;
-    }
-
-    @Override
-    public void run() {
-        for (String word : words) {
-            String temp = finder.find(word);
-            if (temp != null) {
-                ContentSearchRow row = new ContentSearchRow(filePath, temp);
-                MainLayout01.jPanel5.add(row);
-                MainLayout01.jPanel5.revalidate();
-            }
-        }
-        finder = null;
-    }
-
-}
-
-class FileScannerThread2 extends Thread {
-
-    private final String filePath;
-    private final String fileName;
-    private final String[] words;
-
-    public FileScannerThread2(String fileName, String filePath, String[] words) {
-        this.fileName = fileName;
-        this.filePath = filePath;
-        this.words = words;
-    }
-
-    @Override
-    public void run() {
-        for (String word : words) {
-            System.out.println(fileName+"|"+word);
-            if (fileName.contains(word)) {
-                FileNameSearchRow row = new FileNameSearchRow(filePath, fileName, word);
-                MainLayout01.jPanel6.add(row);
-                MainLayout01.jPanel6.revalidate();
-            }
-        }
-    }
-
 }

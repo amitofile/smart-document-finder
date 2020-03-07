@@ -15,12 +15,12 @@ import reader.KeywordFinder;
 public class Main {
 
     public static void main(String[] args) {
-        FileParser parser = new FileParser();
-        parser.parse("C:\\Users\\amit\\Downloads\\ATIPP4539J_PARTB_2019-20.pdf");
+        //FileParser parser = new FileParser();
+        //parser.parse("C:\\Users\\amit\\Downloads\\ATIPP4539J_PARTB_2019-20.pdf");
         //DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss:SSS");
-        String s = parser.getContent();
+        String s = "";//parser.getContent();
 
-        ////System.err.println(dtf.format(LocalDateTime.now()));
+        //System.err.println(dtf.format(LocalDateTime.now()));
         String[] words = {"surcharge", "amit"};
         String result[] = new String[words.length];
 
